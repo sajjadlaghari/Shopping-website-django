@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 
-
+@login_required
 def index(request):
     return render(request,'admin/index.html')
 
@@ -51,13 +51,15 @@ def register(request):
     else:
 
         return render(request,'admin/register.html')
-
+@login_required
 def products(request):
     return render(request,'admin/products.html')
 
+@login_required
 def add_products(request):
     return render(request,'admin/add-product.html')
 
+@login_required
 def add_category(request):
     return render(request,'admin/add-category.html')
 

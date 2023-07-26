@@ -26,13 +26,12 @@
                   <!-- <img src="{% static 'assets/images/logos/dark-logo.svg' %}" width="180" alt=""> -->
                 </a>
                 {% if messages %}
-                <ul class="messages">
-                  {% for message in messages %}
-                  <li style="color: rgb(32, 130, 80);" {% if message.tags %} class="{{ message.tags }}" {% endif %}>
-                    {{message }}
-                  </li>
-                  {% endfor %}
-                </ul>
+                {% for message in messages %}
+                <div class="alert alert-{{message.tags}}" role="alert">
+                  {{message }}
+                </div>
+
+                {% endfor %}
                 {% endif %}
                 <p class="text-center">Enter Your Crendential </p>
                 <form method="POST" action="/admin/login">
