@@ -18,6 +18,10 @@
 
 ![image](https://github.com/sajjadlaghari/Shopping-website-django/assets/68752819/b31cfb90-a465-4d9f-8791-513731de97f3)
 
+### Category Crud Added
+
+![image](https://github.com/sajjadlaghari/Shopping-website-django/assets/68752819/349c5b8d-3a75-4a3b-92d6-47c4caa02714)
+
 
 ### Add Product Form
 
