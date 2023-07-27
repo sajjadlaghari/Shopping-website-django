@@ -1,9 +1,9 @@
 from django.shortcuts import render
-
-# Create your views here.
-
+from Admin.models import Slider
 def home(request):
-    return render(request,'index.html')
+
+    sliders = Slider.objects.all()
+    return render(request,'index.html',{'sliders':sliders})
 
 def shop(request):
     return render(request,'shops.html')

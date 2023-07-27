@@ -25,3 +25,12 @@ class ProductImage(models.Model):
     image = models.ImageField(upload_to='product_images/')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+
+class Slider(models.Model):
+    image = models.ImageField(upload_to="media/")
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    status = models.IntegerField(default=1)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)

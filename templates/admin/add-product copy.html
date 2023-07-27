@@ -1,0 +1,62 @@
+{% extends 'admin/layout.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container-fluid">
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title fw-semibold mb-4">Add Product</h5>
+        <div class="card">
+          <div class="card-body">
+            <form>
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Product Title</label>
+                <input type="text" name="title" class="form-control" id="exampleInputEmail1"
+                  aria-describedby="emailHelp">
+              </div>
+
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Price</label>
+                <input type="text" name="price" class="form-control" id="exampleInputEmail1"
+                  aria-describedby="emailHelp">
+              </div>
+
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Product Featured Image</label>
+                <input type="file" name="featured_image" class="form-control" id="exampleInputEmail1"
+                  aria-describedby="emailHelp">
+              </div>
+
+
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Product Images</label>
+                <input type="file" name="images" multiple class="form-control" id="exampleInputEmail1"
+                  aria-describedby="emailHelp">
+              </div>
+
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Location</label>
+                <input type="text" name="location" class="form-control" id="exampleInputEmail1"
+                  aria-describedby="emailHelp">
+              </div>
+
+
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Description</label>
+
+                <textarea name="" id="" cols="30" class="form-control" placeholder="Add Product Description"
+                  rows="6"></textarea>
+
+              </div>
+
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

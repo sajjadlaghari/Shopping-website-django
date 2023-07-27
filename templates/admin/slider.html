@@ -1,0 +1,56 @@
+{% extends 'admin/layout.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container-fluid">
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+
+          <div class="col-md-12 mt-3">
+            <div class="d-flex justify-content-end">
+              <a href="/admin/add-slider" class="btn btn-success">
+                Add New Slider
+              </a>
+            </div>
+            <div class="table-responsive">
+              <h3>Sliders</h3>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Sno</th>
+                    <th>Slider Image</th>
+                    <th>Title</th>
+                    <th>Short Description</th>
+                    <th>Product Status</th>
+                    <th>Active</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for slider in sliders %}
+
+                  <tr>
+                    <td>1</td>
+                    <td><img src="{{slider.image}}" alt="{{ slider.image }}" style="width: 100px;"></td>
+                    <td>{{ slider.title }}</td>
+                    <td>{{ slider.description }}</td>
+                    <td>{{ slider.status }}</td>
+                    <td>
+                      <p>MEDIA_URL: {{ MEDIA_URL }}</p>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
