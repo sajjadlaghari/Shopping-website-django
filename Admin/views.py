@@ -12,7 +12,9 @@ from .models import *
 
 @login_required
 def index(request):
-    return render(request,'admin/index.html')
+
+    products = Product.objects.all().order_by('-created_at')[:4]
+    return render(request,'admin/index.html',{'products':products})
 
 def login(request):
     if request.method == "POST":
@@ -55,11 +57,9 @@ def register(request):
         return render(request,'admin/register.html')
 @login_required
 def products_cart(request):
-    return render(request,'admin/products-cart.html')
+    products = Product.objects.all().order_by('-created_at')
 
-@login_required
-def products(request):
-    return render(request,'admin/products.html')
+    return render(request,'admin/products-cart.html',{'products':products})
 
 
 @login_required
@@ -90,32 +90,47 @@ def add_slider(request):
             file_name = item.image.name.lstrip("/")
             item.image.name = file_name
             item.save()   
-        messages.warning(request,'Your account created successfully')
+        messages.success(request,'Slider created successfully')
         return redirect('/admin/sliders')
     
     else:
         return render(request,'admin/add-slider.html')
 
+@login_required
+def edit_slider(request,id):
 
+    slider = Slider.objects.get(pk = id)
 
-
+    return render(request,'admin/edit-slider.html',{'slider':slider})
 
 @login_required
-def add_products(request):
-
+def update_slider(request):
     if request.method == "POST":
-        title = request.POST.get('title')            
-        price = request.POST.get('price')            
-        location = request.POST.get('location')            
-        description = request.POST.get('description')
-
-        upload = request.FILES.get('featured_image')
-        fss = FileSystemStorage()
-        file = fss.save(upload.name, upload)
-        featured_image = fss.url(file)            
+        id = request.POST.get('id')     
        
-        obj = Product.objects.create(title = title, description = description, image = file_url)
-            
+        slider = Slider.objects.get(id=id)
+
+        if request.method == "POST":
+            title = request.POST.get('title')            
+            status = request.POST.get('status')
+            description = request.POST.get('description')
+            upload = request.FILES.get('slider_image')       
+
+        if upload:
+            fss = FileSystemStorage()
+            file = fss.save(upload.name, upload)
+            file_url = fss.url(file)
+            slider.image = file_url
+
+        if status:
+            slider.status = status
+
+        # If no new image is selected, keep the existing image
+
+        slider.title = title
+        slider.description = description
+        slider.save()
+
         file_items = Slider.objects.all()
 
         for item in file_items:
@@ -123,11 +138,192 @@ def add_products(request):
             file_name = item.image.name.lstrip("/")
             item.image.name = file_name
             item.save()   
-        messages.warning(request,'Your account created successfully')
+        messages.success(request,'Slider Updated successfully')
+        return redirect('/admin/sliders')
+    
+
+@login_required
+def delete_slider(request,id):
+    Slider.objects.filter(id=id).delete()
+
+    messages.success(request,'Slider Deleted successfully')
+    return redirect('/admin/sliders')
+    
+
+
+# Product Routes
+
+@login_required
+def products(request):
+    products = Product.objects.all().order_by('-created_at')
+
+    return render(request,'admin/products.html',{'products':products})
+
+@login_required
+def add_products(request):
+
+    if request.method == "POST":
+        title = request.POST.get('title')            
+        price = request.POST.get('price')            
+        category_id = request.POST.get('category')            
+        location = request.POST.get('location')            
+        description = request.POST.get('description')
+
+        upload = request.FILES.get('featured_image')
+        fss = FileSystemStorage()
+        file = fss.save(upload.name, upload)
+        featured_image = fss.url(file)   
+
+        current_user = request.user
+
+        category =  Category.objects.get(id = category_id)
+              
+       
+        obj = Product.objects.create(user = current_user , category = category,name = title, description = description, location = location, price=price, fearured_image = featured_image)
+            
+
+        file_items = Product.objects.all()
+
+        for item in file_items:
+            # Removing the leading forward slash from the "media" folder
+            file_name = item.fearured_image.name.lstrip("/")
+            item.fearured_image.name = file_name
+            item.save()   
+
+        
+        product = Product.objects.get(id=obj.id)
+
+        images = request.FILES.getlist('images')
+
+        for image in images:
+           fss = FileSystemStorage()
+           file = fss.save(image.name, image)
+           attch = fss.url(file)
+
+           productImage = ProductImage()
+
+           productImage.product = product
+           productImage.image = attch
+
+           productImage.save()
+
+        file_items = ProductImage.objects.all()
+
+        for item in file_items:
+            # Removing the leading forward slash from the "media" folder
+            file_name = item.image.name.lstrip("/")
+            item.image.name = file_name
+            item.save()
+        messages.success(request,'Product created successfully')
+        products = Product.objects.all().order_by('-created_at')
+        return render(request,'admin/products.html',{'products':products})
     
     else:
-            
-        return render(request,'admin/add-product.html')
+        categories = Category.objects.all()
+        return render(request,'admin/add-product.html',{'categories':categories})
+
+
+@login_required
+def edit_product(request,id):
+    product = Product.objects.get(pk = id)
+    categories = Category.objects.all()
+
+    return render(request,'admin/edit-product.html',{'product':product,'categories':categories})
+
+
+
+
+def update_product(request):
+     
+     if request.method == "POST":
+        id = request.POST.get('id')     
+        product = Product.objects.get(id=id)
+
+        title = request.POST.get('title')            
+        price = request.POST.get('price')            
+        category_id = request.POST.get('category')            
+        location = request.POST.get('location')            
+        description = request.POST.get('description')
+
+        upload = request.FILES.get('featured_image')
+        
+        current_user = request.user
+
+        category =  Category.objects.get(id = category_id)
+
+        if upload:
+            fss = FileSystemStorage()
+            file = fss.save(upload.name, upload)
+            featured_image = fss.url(file)  
+            product.fearured_image = featured_image
+
+
+        product.user = current_user
+        product.category = category
+        product.name = title
+        product.description = description
+        product.location = location
+        product.price = price
+       
+        product.save()
+
+        file_items = Product.objects.all()
+
+        for item in file_items:
+            # Removing the leading forward slash from the "media" folder
+            file_name = item.fearured_image.name.lstrip("/")
+            item.fearured_image.name = file_name
+            item.save()   
+
+        
+        product = Product.objects.get(id=product.id)
+
+        images = request.FILES.getlist('images')
+
+        if images:
+            for image in images:
+                fss = FileSystemStorage()
+                file = fss.save(image.name, image)
+                attch = fss.url(file)
+
+                productImage = ProductImage()
+
+                productImage.product = product
+                productImage.image = attch
+
+                productImage.save()
+
+                file_items = ProductImage.objects.all()
+
+            for item in file_items:
+                # Removing the leading forward slash from the "media" folder
+                file_name = item.image.name.lstrip("/")
+                item.image.name = file_name
+                item.save()
+        messages.success(request,'Product Updated successfully')
+        return redirect('/admin/products')
+
+
+
+@login_required
+def delete_products(request,id):
+    Product.objects.filter(id=id).delete()
+
+    messages.success(request,'Product Deleted successfully')
+    return redirect('/admin/products')
+   
+
+
+
+#  category views
+
+
+@login_required
+def categories(request):
+
+    categories = Category.objects.all()
+
+    return render(request,'admin/categories.html',{'categories':categories})
 
 @login_required
 def add_category(request):
@@ -149,18 +345,12 @@ def add_category(request):
             file_name = item.image.name.lstrip("/")
             item.image.name = file_name
             item.save()   
-        messages.warning(request,'Category created successfully')
+        messages.success(request,'Category created successfully')
         return redirect('/admin/categories')
     
     else:
         return render(request,'admin/add-category.html')
 
-@login_required
-def categories(request):
-
-    categories = Category.objects.all()
-
-    return render(request,'admin/categories.html',{'categories':categories})
 
 @login_required
 def edit_category(request,id):
@@ -212,7 +402,7 @@ def delete_category(request,id):
     return redirect('/admin/categories')
     
 
-
+#  category views Ended Here
 
 @login_required
 def custom_logout(request):

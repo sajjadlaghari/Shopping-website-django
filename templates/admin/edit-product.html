@@ -1,0 +1,86 @@
+{% extends 'admin/layout.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container-fluid">
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title fw-semibold mb-4">Add Product</h5>
+        <div class="card">
+          <div class="card-body">
+            <form method="POST" action="/admin/update-product" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Product Title</label>
+                <input type="text" name="title" required value="{{ product.name }}" class="form-control"
+                  id="exampleInputEmail1" aria-describedby="emailHelp">
+
+                <input type="hidden" name="id" value="{{ product.id }}">
+              </div>
+
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Product Title</label>
+
+                <select name="category" required class="form-control" id="">
+                  <option value="">Select Category</option>
+                  {% for category in categories %}
+                  {% if product.category == category %}
+                  <option selected value="{{ category.id  }}">{{ category.name }}</option>
+
+                  {% else %}
+
+                  <option value="{{ category.id  }}">{{ category.name }}</option>
+                  {% endif %}
+
+                  {% endfor %}
+                </select>
+              </div>
+
+
+
+
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Price</label>
+                <input type="text" name="price" required value="{{ product.price }}" class="form-control"
+                  id="exampleInputEmail1" aria-describedby="emailHelp">
+              </div>
+
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Product Featured Image</label>
+                <input type="file" name="featured_image" class="form-control" id="exampleInputEmail1"
+                  aria-describedby="emailHelp">
+              </div>
+
+
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Product Images</label>
+                <input type="file" name="images" multiple class="form-control" id="exampleInputEmail1"
+                  aria-describedby="emailHelp">
+              </div>
+
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Location</label>
+                <input type="text" name="location" required value="{{ product.location }}" class="form-control"
+                  id="exampleInputEmail1" aria-describedby="emailHelp">
+              </div>
+
+
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Description</label>
+
+                <textarea name="description" id="" required cols="30" class="form-control"
+                  placeholder="Add Product Description" rows="6">{{ product.description }}</textarea>
+
+              </div>
+
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

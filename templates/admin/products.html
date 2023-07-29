@@ -9,6 +9,14 @@
         <div class="row">
 
           <div class="col-md-12 mt-3">
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{message.tags}}" role="alert">
+              {{message }}
+            </div>
+
+            {% endfor %}
+            {% endif %}
             <div class="d-flex justify-content-end">
               <a href="/admin/add-product" class="btn btn-success">
                 Add Product
@@ -24,9 +32,39 @@
                     <th>Product Title</th>
                     <th>Product Description</th>
                     <th>Product Status</th>
-                    <th>Active</th>
+                    <th style="width: 300px; text-align: end;">Active</th>
                   </tr>
                 </thead>
+
+                <tbody>
+
+
+                  {% for product in products %}
+                  <tr>
+
+                    <td>{{forloop.counter}}</td>
+                    <td><img src="{{product.fearured_image}}" alt="{{product.fearured_image}}" style="width: 100px;"
+                        srcset=""></td>
+                    <td>{{ product.name|slice:":100" }}</td>
+                    <td> {{ product.description|slice:":100" }}</td>
+                    <td>
+                      {% if product.status == True %}
+                      <span class="badge text-white btn btn-info">Active</span>
+
+                      {% else %}
+
+                      <span class="badge text-white btn btn-danger">InActive</span>
+                      {% endif %}
+                    </td>
+                    <td style="width: 300px; text-align: end;">
+                      <a href="edit-product/{{ product.id }}" class="btn btn-info mx-3">Edit</a>
+                      <a href="delete-product/{{ product.id }}" class="btn btn-danger">Delete</a>
+
+                    </td>
+
+                  </tr>
+                  {% endfor %}
+                </tbody>
               </table>
             </div>
           </div>

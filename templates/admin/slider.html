@@ -9,6 +9,14 @@
         <div class="row">
 
           <div class="col-md-12 mt-3">
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{message.tags}}" role="alert">
+              {{message }}
+            </div>
+
+            {% endfor %}
+            {% endif %}
             <div class="d-flex justify-content-end">
               <a href="/admin/add-slider" class="btn btn-success">
                 Add New Slider
@@ -24,20 +32,29 @@
                     <th>Title</th>
                     <th>Short Description</th>
                     <th>Product Status</th>
-                    <th>Active</th>
+                    <th class="text-center">Active</th>
                   </tr>
                 </thead>
                 <tbody>
                   {% for slider in sliders %}
 
                   <tr>
-                    <td>1</td>
+                    <td>{{forloop.counter}}</td>
                     <td><img src="{{slider.image}}" alt="{{ slider.image }}" style="width: 100px;"></td>
                     <td>{{ slider.title }}</td>
                     <td>{{ slider.description }}</td>
-                    <td>{{ slider.status }}</td>
                     <td>
-                      <p>MEDIA_URL: {{ MEDIA_URL }}</p>
+                      {% if slider.status == True %}
+                      <span class="badge text-white btn btn-info">Active</span>
+                      {% else %}
+                      <span class="badge text-white btn btn-danger">InActive</span>
+
+                      {%endif%}
+                    </td>
+                    <td style="text-align: center;">
+                      <a href="edit-slider/{{ slider.id }}" class="btn btn-info mx-3">Edit</a>
+                      <a href="delete-slider/{{ slider.id }}" class="btn btn-danger">Delete</a>
+
                     </td>
                   </tr>
                   {% endfor %}

@@ -8,9 +8,15 @@ urlpatterns =[
     path('login',views.login),
     path('register',views.register),
     path('products-cart',views.products_cart),
+    path('logout',views.custom_logout),
+
+    
     path('products',views.products),
     path('add-product',views.add_products),
-    path('logout',views.custom_logout),
+    path('edit-product/<int:id>',views.edit_product),
+    path('update-product',views.update_product),
+    path('delete-product/<int:id>',views.delete_products),
+
 
     path('categories',views.categories),
     path('add-category',views.add_category),
@@ -19,8 +25,12 @@ urlpatterns =[
     path('delete-category/<int:id>', views.delete_category),
 
 
-    # path('sliders',views.slider),
-    # path('add-slider',views.add_slider),
+    path('sliders',views.slider),
+    path('add-slider',views.add_slider),
+
+    path('edit-slider/<int:id>', views.edit_slider),
+    path('update-slider', views.update_slider),
+    path('delete-slider/<int:id>', views.delete_slider),
 
     # path('shop/',views.shop)
 ]
