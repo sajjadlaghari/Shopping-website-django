@@ -7,7 +7,8 @@ from . import views
 urlpatterns =[
     path('',views.home),
     path('shop/',views.shop),
-    path('product_detailed/<int:id>',views.product_detailed)
+    path('product_detailed/<int:id>',views.product_detailed),
+    path('add-to-cart',views.add_to_cart)
 ]
 
 if settings.DEBUG:

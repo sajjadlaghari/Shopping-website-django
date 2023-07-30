@@ -34,3 +34,12 @@ class Slider(models.Model):
     status = models.IntegerField(default=1)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    
+class Cart(models.Model):
+    product  =  models.ForeignKey(Product, on_delete=models.CASCADE)
+    user     =  models.ForeignKey(User,on_delete=models.CASCADE) 
+    quantity =  models.FloatField(max_length=10)
+    price    =  models.FloatField(max_length=10)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)

@@ -1,0 +1,67 @@
+{% extends 'admin/layout.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container-fluid">
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+
+          <div class="col-md-12 mt-3">
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{message.tags}}" role="alert">
+              {{message }}
+            </div>
+
+            {% endfor %}
+            {% endif %}
+            <div class="d-flex justify-content-end">
+
+            </div>
+            <div class="table-responsive">
+              <h3>Carts</h3>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Sno</th>
+                    <th>User</th>
+                    <th>Product Image</th>
+                    <th>Product Name</th>
+                    <th>Product Quantity</th>
+                    <th>Product Price</th>
+                    <th class="text-center">Active</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for cart in carts %}
+
+                  <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{ cart.user.first_name }} {{ cart.user.last_name }}</td>
+                    <td><img src="{{ cart.product.fearured_image }}" alt="{{ category.image }}" style="width: 100px;">
+                    </td>
+                    <td>{{ cart.product.name }}</td>
+                    <td> {{ cart.quantity|floatformat:0 }}</td>
+                    <td>{{ cart.price|floatformat:0 }}</td>
+
+                    <td class="text-center">
+                      <a href="delete-cart/{{ cart.id }}" class="btn btn-danger">Delete</a>
+
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

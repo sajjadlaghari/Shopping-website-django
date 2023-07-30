@@ -32,6 +32,13 @@ urlpatterns =[
     path('update-slider', views.update_slider),
     path('delete-slider/<int:id>', views.delete_slider),
 
+
+    path('carts',views.carts),
+   
+    path('delete-cart/<int:id>', views.delete_cart),
+
+   
+
     # path('shop/',views.shop)
 ]
 

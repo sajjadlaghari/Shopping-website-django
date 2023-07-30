@@ -150,7 +150,6 @@ def delete_slider(request,id):
     return redirect('/admin/sliders')
     
 
-
 # Product Routes
 
 @login_required
@@ -313,6 +312,17 @@ def delete_products(request,id):
     return redirect('/admin/products')
    
 
+@login_required
+def carts(request):
+    carts = Cart.objects.all()
+    return render(request,'admin/carts.html',{'carts':carts})
+
+
+@login_required
+def delete_cart(request,id):
+    carts = Cart.objects.filter(id=id).delete()
+    messages.success(request,'Cart Deleted successfully')
+    return redirect('/admin/carts')
 
 
 #  category views
