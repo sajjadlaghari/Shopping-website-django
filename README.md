@@ -35,7 +35,16 @@
 
 ![image](https://github.com/sajjadlaghari/Shopping-website-django/assets/68752819/dc95c5db-0543-4125-bcc6-0e843ca95d4c)
 
+### Cart Detailed View Added
+
+![screencapture-127-0-0-1-8000-admin-carts-2023-07-30-21_29_53](https://github.com/sajjadlaghari/Shopping-website-django/assets/68752819/eb1159a2-8537-467a-ac4a-2d6b1093d452)
+
 
 ### Front Page Product
 
 ![screencapture-localhost-8000-2023-07-30-02_39_52](https://github.com/sajjadlaghari/Shopping-website-django/assets/68752819/27823396-74c6-44be-bb70-cedf26583aa6)
+
+
+### Product and Addedd into cart add
+
+![screencapture-127-0-0-1-8000-add-to-cart-2023-07-30-21_29_33](https://github.com/sajjadlaghari/Shopping-website-django/assets/68752819/45f4ba01-6216-499c-bd8a-919467c68386)
