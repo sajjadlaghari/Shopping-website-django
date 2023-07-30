@@ -40,6 +40,65 @@
 
 <body class="animsition">
 
+    <!-- Cart -->
+    <div class="wrap-header-cart js-panel-cart">
+        <div class="s-full js-hide-cart"></div>
+
+        <div class="header-cart flex-col-l p-l-65 p-r-25">
+            <div class="header-cart-title flex-w flex-sb-m p-b-8">
+                <span class="mtext-103 cl2">
+                    Your Cart
+                </span>
+
+                <div class="fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-cart">
+                    <i class="zmdi zmdi-close"></i>
+                </div>
+            </div>
+
+            <div class="header-cart-content flex-w js-pscroll">
+                <ul class="header-cart-wrapitem w-full">
+
+                    {% for cart in carts %}
+
+                    <li class="header-cart-item flex-w flex-t m-b-12">
+                        <div class="header-cart-item-img">
+                            <img src="/{{ cart.product.fearured_image }}" alt="{{ cart.product.fearured_image }}">
+                        </div>
+
+                        <div class="header-cart-item-txt p-t-8">
+                            <a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
+                                {{ cart.product.name }}
+                            </a>
+
+                            <span class="header-cart-item-info">
+                                {{ cart.price }}
+                            </span>
+                        </div>
+                    </li>
+
+                    {% endfor %}
+                </ul>
+
+                <div class="w-full">
+                    <!-- <div class="header-cart-total w-full p-tb-40">
+                        Total: $75.00
+                    </div> -->
+
+                    <div class="header-cart-buttons flex-w w-full">
+                        <a href="/view-cart"
+                            class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
+                            View Cart
+                        </a>
+
+                        <!-- <a href="#" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
+                            Check Out
+                        </a> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Header -->
     <header>
         <!-- Header desktop -->
@@ -77,7 +136,7 @@
                     <!-- Logo desktop -->
                     <a href="#" class="logo">
                         <!-- <img src="{% static 'images/icons/logo-01.png' %} " alt="IMG-LOGO"> -->
-                        <h3 class="text-dark fw-bold">Buy Your Choice</h3>
+                        <h3 class="text-dark fw-bold">J2 Ecommerce</h3>
                     </a>
 
                     <!-- Menu desktop -->
@@ -119,7 +178,7 @@
                         </div>
 
                         <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart"
-                            data-notify="2">
+                            data-notify="{{ cart_item_count }}">
                             <i class="zmdi zmdi-shopping-cart"></i>
                         </div>
 

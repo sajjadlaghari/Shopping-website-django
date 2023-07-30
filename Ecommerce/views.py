@@ -10,57 +10,51 @@ def home(request):
     sliders = Slider.objects.all()
 
     products = Product.objects.all().order_by('-created_at')
-    return render(request,'index.html',{'sliders':sliders,'products':products})
+    carts = Cart.objects.filter(user = request.user)
+    cart_item_count = Cart.objects.filter(user=request.user).count()
+    print(cart_item_count)
+    return render(request,'index.html',{'cart_item_count':cart_item_count,'sliders':sliders,'products':products,'carts':carts})
 
 
 
 def product_detailed(request,id):
 
     product = Product.objects.get(pk = id)
-    return render(request,'product-detail.html',{'product':product})
+    cart_item_count = Cart.objects.filter(user=request.user).count()
+    carts = Cart.objects.filter(user = request.user)
+    return render(request,'product-detail.html',{'carts':carts,'cart_item_count':cart_item_count,'product':product})
 
 @login_required
 def add_to_cart(request):
     
-    product = Product.objects.get(pk = request.POST.get('id'))
-    cart = Cart.objects.get(product = request.POST.get('id'))
+    product_id = request.POST.get('id')
+    quantity = int(request.POST.get('quantity'))
+    price = float(request.POST.get('price'))
+
+    product = Product.objects.get(pk=product_id)
+
+    # Try to get the cart for the current user and product
+    try:
+        cart = Cart.objects.get(user=request.user, product=product)
+    except Cart.DoesNotExist:
+        cart = None
+
     if cart:
-
-        price = request.POST.get('price')
-        quantity = request.POST.get('quantity')
-
-        price = float(price)
-        quantity = int(quantity)
-
-        price = price * quantity
-
         cart.quantity += quantity
-        cart.price += price
-
+        cart.price += price * quantity
         cart.save()
-
     else:
-
-        price = request.POST.get('price')
-        quantity = request.POST.get('quantity')
-
-        price = float(price)
-        quantity = int(quantity)
-
-        price = price * quantity
-
-        current_user = request.user
-        cart = Cart()
-
-        cart.product = product
-        cart.user = current_user
-        cart.quantity = quantity
-        cart.price = price
+        cart = Cart(user=request.user, product=product, quantity=quantity, price=price * quantity)
         cart.save()
 
-    product = Product.objects.get(pk = request.POST.get('id'))
+    return render(request, 'product-detail.html', {'product': product})
 
-    return render(request,'product-detail.html',{'product':product})
+@login_required
+def view_cart(request):
+    cart_item_count = Cart.objects.filter(user=request.user).count()
+    carts = Cart.objects.filter(user = request.user)
+    return render(request,'shoping-cart.html',{'carts':carts,'cart_item_count':cart_item_count})
+
 
 
 

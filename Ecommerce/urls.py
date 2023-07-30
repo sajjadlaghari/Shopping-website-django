@@ -8,7 +8,10 @@ urlpatterns =[
     path('',views.home),
     path('shop/',views.shop),
     path('product_detailed/<int:id>',views.product_detailed),
-    path('add-to-cart',views.add_to_cart)
+    path('add-to-cart',views.add_to_cart),
+    path('view-cart',views.view_cart)
+
+    
 ]
 
 if settings.DEBUG:
