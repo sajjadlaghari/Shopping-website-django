@@ -8,21 +8,48 @@ from Admin.models import Cart
 def home(request):
 
     sliders = Slider.objects.all()
-
     products = Product.objects.all().order_by('-created_at')
-    carts = Cart.objects.filter(user = request.user)
-    cart_item_count = Cart.objects.filter(user=request.user).count()
-    print(cart_item_count)
-    return render(request,'index.html',{'cart_item_count':cart_item_count,'sliders':sliders,'products':products,'carts':carts})
 
+    # Check if the user is authenticated before accessing the cart
+    if request.user.is_authenticated:
+        carts = Cart.objects.filter(user=request.user)
+        cart_item_count = carts.count()
+        print(cart_item_count)
+    else:
+        # If the user is not logged in, set carts and cart_item_count to None or 0
+        carts = None
+        cart_item_count = 0
+
+    # Rest of your view logic goes here
+    # ...
+
+    return render(request, 'index.html', {
+        'sliders': sliders,
+        'products': products,
+        'carts': carts,
+        'cart_item_count': cart_item_count,
+    })
 
 
 def product_detailed(request,id):
 
     product = Product.objects.get(pk = id)
-    cart_item_count = Cart.objects.filter(user=request.user).count()
-    carts = Cart.objects.filter(user = request.user)
-    return render(request,'product-detail.html',{'carts':carts,'cart_item_count':cart_item_count,'product':product})
+
+    # Check if the user is authenticated before accessing the cart
+    if request.user.is_authenticated:
+        cart_item_count = Cart.objects.filter(user=request.user).count()
+        carts = Cart.objects.filter(user=request.user)
+    else:
+        # If the user is not logged in, set carts and cart_item_count to None or 0
+        cart_item_count = 0
+        carts = None
+
+    return render(request, 'product-detail.html', {
+        'carts': carts,
+        'cart_item_count': cart_item_count,
+        'product': product,
+    })
+
 
 @login_required
 def add_to_cart(request):
