@@ -48,3 +48,9 @@
 ### Product and Addedd into cart add
 
 ![screencapture-127-0-0-1-8000-add-to-cart-2023-07-30-21_29_33](https://github.com/sajjadlaghari/Shopping-website-django/assets/68752819/45f4ba01-6216-499c-bd8a-919467c68386)
+
+
+
+### Product View
+
+![screencapture-127-0-0-1-8000-view-cart-2023-07-31-00_08_26](https://github.com/sajjadlaghari/Shopping-website-django/assets/68752819/bcb57289-ffeb-4674-9dfd-30434300b5c1)
