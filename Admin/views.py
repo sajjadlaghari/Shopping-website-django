@@ -24,9 +24,15 @@ def login(request):
 
         user_obj = authenticate(username=email, password=password)
 
+        
         if user_obj:
+
             django_login(request, user_obj)  # Use login() to log in the user
-            return redirect('/admin')
+            if request.user.email == 'admin@gmail.com':
+                return redirect('/admin')
+            else:
+                return redirect('/')
+
 
         messages.warning(request,'Invalid credentials')
         return HttpResponseRedirect(request.path_info)
@@ -44,7 +50,7 @@ def register(request):
             
         if user_obj:
             messages.warning(request,'Email already Taken')
-            return HttpResponseRedirect(request.path_info)
+            return redirect('/admin/register')
 
         user_obj = User.objects.create(first_name = first_name, last_name = last_name, email = email, username = email)
         user_obj.set_password(password)

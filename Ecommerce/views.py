@@ -34,7 +34,6 @@ def home(request):
 def product_detailed(request,id):
 
     product = Product.objects.get(pk = id)
-
     # Check if the user is authenticated before accessing the cart
     if request.user.is_authenticated:
         cart_item_count = Cart.objects.filter(user=request.user).count()

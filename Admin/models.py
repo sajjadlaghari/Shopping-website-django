@@ -28,7 +28,7 @@ class ProductImage(models.Model):
 
 
 class Slider(models.Model):
-    image = models.ImageField(upload_to="media/")
+    image = models.ImageField(upload_to="")
     title = models.CharField(max_length=200)
     description = models.TextField()
     status = models.IntegerField(default=1)
