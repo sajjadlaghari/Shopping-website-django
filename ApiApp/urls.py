@@ -22,6 +22,8 @@ from .views import *
 
 urlpatterns = [
     path('sliders/',sliders),
+    path('product_detailed/<int:id>',product_detailed),
+    path('login',login),
     path('products/',products),
     
 ]
