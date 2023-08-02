@@ -24,6 +24,7 @@ urlpatterns = [
     path('sliders/',sliders),
     path('product_detailed/<int:id>',product_detailed),
     path('login',login),
+    path('register',register),
     path('products/',products),
     
 ]

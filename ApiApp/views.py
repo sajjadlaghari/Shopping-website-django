@@ -8,6 +8,9 @@ from .serializers import ProductSerializer
 from django.contrib.auth import authenticate, login as django_login
 from django.contrib.auth import authenticate,  logout
 from .serializers import UserSerializer
+from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
+
 @api_view(['GET'])
 def sliders(request):
 
@@ -31,7 +34,6 @@ def product_detailed(request,id):
 
 @api_view(['POST'])
 def login(request):
-  
 
     email = request.data.get('username')
     password = request.data.get('password')
@@ -49,14 +51,41 @@ def login(request):
     if user:
         user_serializer = UserSerializer(user)
         user_data = user_serializer.data
+
+        data = User.objects.get(username = user_serializer.data['username'])
+        token , _ = Token.objects.get_or_create(user=data)
         # If user is authenticated, generate tokens
       
         return Response({
             'data': user_data,
             'status': 200,
+            'token':str(token)
         })
     else:
         return Response({
+            "message":"Invalid Crendentials ",
             
             'status': 300,
         })
+
+@api_view(['POST'])
+def register(request):
+    
+    serializer = UserSerializer(data=request.data)
+
+    if serializer.is_valid():
+        serializer.save()
+        return Response({
+            'data': serializer.data,
+            'status': 200,
+        })
+    else:
+         return Response({
+            'Message': 'Something Went Wrong try again later' ,
+            'status': 200,
+            'errors':serializer.errors
+        })
+
+
+
+
